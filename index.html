@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>השעשועון הגדול 🎬🎵 | אמא מול שלי</title>
+
+  <!-- Google Fonts: Rubik & Heebo -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- קנבס קונפטי -->
+  <canvas id="confettiCanvas"></canvas>
+
+  <div class="app-fullscreen-shell">
+
+    <!-- כותרת ראשית עליונה -->
+    <header class="show-header">
+      <div class="brand-area">
+        <div class="brand-icon">🎬</div>
+        <div class="brand-text">
+          <h1>השעשועון הגדול!</h1>
+          <p>אמא מול שלי – גאליס, החממה, שירים ונוסטלגיה 💖</p>
+        </div>
+      </div>
+
+      <div class="header-center-info">
+        <div id="roundCounterPill" class="round-pill-indicator">
+          שאלה 1 מתוך 15
+        </div>
+      </div>
+
+      <button id="btnTriggerFinish" class="btn" style="background: #f1f5f9; color: var(--text-main); font-size: 0.95rem; padding: 0.55rem 1.25rem;">
+        🏆 סיום והכתרת מנצחת
+      </button>
+    </header>
+
+    <!-- לוח תוצאות רחב ומרהיב -->
+    <div class="scoreboard-wide">
+      <!-- כרטיס שלי -->
+      <div class="player-bar-card shelly">
+        <div class="player-bar-left">
+          <div class="player-avatar-circle">👧</div>
+          <div class="player-title-info">
+            <h3>שלי</h3>
+            <span style="font-size: 0.85rem; color: var(--text-muted);">מומחית גאליס והחממה 🌲</span>
+          </div>
+        </div>
+        <div id="scoreShelly" class="player-bar-score">0</div>
+      </div>
+
+      <!-- כרטיס אמא -->
+      <div class="player-bar-card mom">
+        <div class="player-bar-left">
+          <div class="player-avatar-circle">👩</div>
+          <div class="player-title-info">
+            <h3>אמא</h3>
+            <span style="font-size: 0.85rem; color: var(--text-muted);">מלכת הקלאסיקות והנוסטלגיה 👑</span>
+          </div>
+        </div>
+        <div id="scoreMom" class="player-bar-score">0</div>
+      </div>
+    </div>
+
+    <!-- סרגל סינון קטגוריות -->
+    <div class="category-filter-strip">
+      <button class="filter-btn active" data-category="all">✨ הכל מעורבב</button>
+      <button class="filter-btn" data-category="series">📺 סדרות נוער (גאליס, החממה, שכונה, נעלמים)</button>
+      <button class="filter-btn" data-category="songs">🎵 השלמת שירים (להיטים ושירי פתיחה)</button>
+      <button class="filter-btn" data-category="ai_real">🤖 AI או אמיתי?!</button>
+    </div>
+
+    <!-- במת המשחק המרכזית (Full Stage) -->
+    <main class="main-stage-arena">
+      <div class="stage-tags">
+        <span id="stageCatBadge" class="stage-cat-badge">קטגוריה</span>
+        <span id="stageTargetBadge" class="stage-target-badge">סדרות נוער</span>
+      </div>
+
+      <div id="questionPrompt" class="big-question-prompt">
+        טוען שאלה...
+      </div>
+
+      <div id="hintPill" class="hint-pill-badge">
+        רמז יופיע כאן
+      </div>
+
+      <!-- תיבת התשובה לאחר חשיפה -->
+      <div id="revealBox" class="revealed-answer-box">
+        <div class="revealed-answer-label">✓ התשובה הנכונה:</div>
+        <div id="revealedAnswerText" class="revealed-answer-content"></div>
+      </div>
+
+      <!-- כפתור חשיפת תשובה -->
+      <button id="btnReveal" class="btn btn-big-reveal">
+        👁️ חשוף את התשובה!
+      </button>
+
+      <!-- בקרת ניקוד לאחר חשיפה -->
+      <div id="scoringControls" class="scoring-controls-panel">
+        <div class="scoring-instruction">מי ענתה נכון? לחצו כדי להעניק נקודה:</div>
+        <div class="scoring-btns-row">
+          <button id="btnScoreShelly" class="btn btn-score-shelly">
+            👧 שלי צדקה (+1)
+          </button>
+          <button id="btnScoreMom" class="btn btn-score-mom">
+            👩 אמא צדקה (+1)
+          </button>
+          <button id="btnScoreBoth" class="btn btn-score-both">
+            👯‍♀️ שתינו צדקנו! (+1 לכל אחת)
+          </button>
+          <button id="btnScoreNone" class="btn btn-score-none">
+            ⏭️ אף אחת לא ידעה (הבא)
+          </button>
+        </div>
+      </div>
+    </main>
+
+  </div>
+
+  <!-- ==================== מסך סיום חגיגי (Victory Screen) ==================== -->
+  <div id="victoryOverlay" class="victory-overlay">
+    <div class="victory-card-full">
+      <div class="victory-crown">👑</div>
+      <h2 id="vicWinnerTitle" class="victory-winner-title">שלי ניצחה בקרב הדורות!</h2>
+
+      <div class="victory-summary-scores">
+        <div class="victory-score-pill shelly">
+          <h4>שלי 👧</h4>
+          <span id="vicShellyScore">0 נק׳</span>
+        </div>
+        <div class="victory-score-pill mom">
+          <h4>אמא 👩</h4>
+          <span id="vicMomScore">0 נק׳</span>
+        </div>
+      </div>
+
+      <div id="vicDareText" class="victory-dare-box">
+        ☕ משימת המפסידה: להכין למנצחת כוס שוקו/קפה מפנק ישר לספה!
+      </div>
+
+      <button id="btnRematch" class="btn btn-big-reveal" style="font-size: 1.15rem; padding: 0.85rem 2.5rem;">
+        🔄 משחק חוזר – בואי נראה מי תנצח הפעם!
+      </button>
+    </div>
+  </div>
+
+  <!-- סקריפטים -->
+  <script src="questions.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
